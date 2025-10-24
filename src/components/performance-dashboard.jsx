@@ -1,59 +1,78 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useNavigate } from 'react-router-dom'; // import the useNavigate hook from react-router-dom for navigating between pages
-import { LogOut, ChevronDown, ChevronUp, BarChart2, Award, TrendingUp, Users } from 'lucide-react';  // importing the icons from lucide-react
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';// import the recharts library for presenting charts
+import { useState } from "react";
+import { useNavigate } from "react-router-dom"; // import the useNavigate hook from react-router-dom for navigating between pages
+import {
+  LogOut,
+  ChevronDown,
+  ChevronUp,
+  BarChart2,
+  Award,
+  TrendingUp,
+  Users,
+} from "lucide-react"; // importing the icons from lucide-react
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts"; // import the recharts library for presenting charts
 
-
-const PerformanceDashboard = () => { // define the PerformanceDashboard component
+const PerformanceDashboard = () => {
+  // define the PerformanceDashboard component
   const navigate = useNavigate(); // use the useNavigate hook to navigate between pages
   const [expandedCard, setExpandedCard] = useState(null); // define a state to track the expanded card
-  const [sortBy, setSortBy] = useState('rating'); // define a state to track the sort by option
-  const [filterDepartment, setFilterDepartment] = useState('all'); // define a state to track the filter department option
-  const [dateRange, setDateRange] = useState('all'); // define a state to track the date range option
+  const [sortBy, setSortBy] = useState("rating"); // define a state to track the sort by option
+  const [filterDepartment, setFilterDepartment] = useState("all"); // define a state to track the filter department option
+  const [dateRange, setDateRange] = useState("all"); // define a state to track the date range option
 
-  const performanceMetrics = [ // define the performance metrics data
+  const performanceMetrics = [
+    // define the performance metrics data
     {
       title: "Average Rating", // title of the metric
       value: "4.7", // value of the metric
-      trend: "+0.3", // trend of the metric 
+      trend: "+0.3", // trend of the metric
       icon: <Award size={24} />, // icon of the metric
-      color: "#3b82f6"
+      color: "#3b82f6",
     },
     {
       title: "Top Performers",
       value: "8",
       trend: "+2",
       icon: <TrendingUp size={24} />,
-      color: "#10b981"
+      color: "#10b981",
     },
     {
       title: "Total Reviews",
       value: "1,245",
       trend: "+123",
       icon: <BarChart2 size={24} />,
-      color: "#f59e0b"
+      color: "#f59e0b",
     },
     {
       title: "Active Teachers",
       value: "42",
       trend: "+5",
       icon: <Users size={24} />,
-      color: "#8b5cf6"
-    }
+      color: "#8b5cf6",
+    },
   ];
 
-  const trendsData = [ // define the trends data
-    { month: 'Jan', rating: 3.2, reviews: 95 },  // data point for January
-    { month: 'Feb', rating: 4.3, reviews: 110 },  // data point for February
-    { month: 'Mar', rating: 4.5, reviews: 125 }, // data point for March
-    { month: 'Apr', rating: 4.6, reviews: 140 }, // data point for April
-    { month: 'May', rating: 4.7, reviews: 150 }, // data point for May
-    { month: 'Jun', rating: 4.8, reviews: 165 } // data point for June
+  const trendsData = [
+    // define the trends data
+    { month: "Jan", rating: 3.2, reviews: 95 }, // data point for January
+    { month: "Feb", rating: 4.3, reviews: 110 }, // data point for February
+    { month: "Mar", rating: 4.5, reviews: 125 }, // data point for March
+    { month: "Apr", rating: 4.6, reviews: 140 }, // data point for April
+    { month: "May", rating: 4.7, reviews: 150 }, // data point for May
+    { month: "Jun", rating: 4.8, reviews: 165 }, // data point for June
   ];
 
-  const teacherData = [ // define the teacher data
+  const teacherData = [
+    // define the teacher data
     {
       id: 1, // unique id of the teacher
       name: "Ms. Clara Bennett", // name of the teacher
@@ -62,7 +81,8 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
       rating: 3.5, // rating of the teacher
       reviews: 120, // number of reviews of the teacher
       image: "https://placehold.co/600x400", // image of the teacher
-      metrics: { // metrics of the teacher
+      metrics: {
+        // metrics of the teacher
         engagementScore: "92/100", // engagement score of the teacher
         feedbackScore: "88/100", // feedback score of the teacher
         peerReviews: "4.5/5", // peer reviews of the teacher
@@ -221,25 +241,30 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
     },
   ];
 
-
-  const handleLogout = () => { // Logout functionality
+  const handleLogout = () => {
+    // Logout functionality
     localStorage.removeItem("teacherAuthenticated"); // Remove the authentication token from local storage
-    navigate('/'); // Redirect the user to the login page
+    navigate("/"); // Redirect the user to the login page
   };
 
-  const toggleCardExpand = (teacherId) => { // Toggle the expand/collapse state of a teacher's card
+  const toggleCardExpand = (teacherId) => {
+    // Toggle the expand/collapse state of a teacher's card
     setExpandedCard(expandedCard === teacherId ? null : teacherId); // Update the expandedCard state
   };
 
   // Add sorting function
-  const getSortedTeachers = () => { // Sort the teachers based on their rating
-    return [...teacherData].sort((a, b) => { // Create a copy of the teacherData array and sort it
-      switch (sortBy) { // Check the current sort order
-        case 'rating': // If the sort order is by rating
+  const getSortedTeachers = () => {
+    // Sort the teachers based on their rating
+    return [...teacherData].sort((a, b) => {
+      // Create a copy of the teacherData array and sort it
+      switch (
+        sortBy // Check the current sort order
+      ) {
+        case "rating": // If the sort order is by rating
           return b.rating - a.rating; // Sort in descending order
-        case 'reviews':    // If the sort order is by reviews
+        case "reviews": // If the sort order is by reviews
           return b.reviews - a.reviews; // Sort in descending order
-        case 'name': // If the sort order is by name
+        case "name": // If the sort order is by name
           return a.name.localeCompare(b.name); // Sort alphabetically
         default: // If the sort order is not recognized
           return 0; // Return 0 to maintain the original order
@@ -248,61 +273,77 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
   };
 
   // Replace the existing getFilteredAndSortedTeachers function
-  const getFilteredAndSortedTeachers = () => { // Filter and sort the teachers based on the search query and sort order
+  const getFilteredAndSortedTeachers = () => {
+    // Filter and sort the teachers based on the search query and sort order
     const now = new Date(); // Get the current date and time
-    const getDateFromRange = (range) => { // Helper function to get the date from a date range string
-      switch (range) { // Check the date range format
-        case 'week': // If the date range is for the current week
+    const getDateFromRange = (range) => {
+      // Helper function to get the date from a date range string
+      switch (
+        range // Check the date range format
+      ) {
+        case "week": // If the date range is for the current week
           return new Date(now - 7 * 24 * 60 * 60 * 1000); // Return the date 7 days ago
-        case 'month': // If the date range is for the current month
+        case "month": // If the date range is for the current month
           return new Date(now.setMonth(now.getMonth() - 1)); // Return the date 1 month ago
-        case 'quarter': // If the date range is for the current quarter
+        case "quarter": // If the date range is for the current quarter
           return new Date(now.setMonth(now.getMonth() - 3)); // Return the date 3 months ago
-        case 'year': // If the date range is for the current year 
+        case "year": // If the date range is for the current year
           return new Date(now.setFullYear(now.getFullYear() - 1)); // Return the date 1 year ago
         default: // If the date range is not recognized
           return new Date(0); // Return the epoch date (January 1, 1970)
       }
     };
-    return getSortedTeachers().filter(teacher => { // Filter the sorted teachers based on the search query and date range
-      const meetsDepartmentCriteria = filterDepartment === 'all' || teacher.department === filterDepartment; // Check if the teacher meets the department criteria
-      const meetsDateCriteria = dateRange === 'all' || new Date(teacher.lastUpdated) >= getDateFromRange(dateRange); // Check if the teacher meets the date criteria
+    return getSortedTeachers().filter((teacher) => {
+      // Filter the sorted teachers based on the search query and date range
+      const meetsDepartmentCriteria =
+        filterDepartment === "all" || teacher.department === filterDepartment; // Check if the teacher meets the department criteria
+      const meetsDateCriteria =
+        dateRange === "all" ||
+        new Date(teacher.lastUpdated) >= getDateFromRange(dateRange); // Check if the teacher meets the date criteria
 
       return meetsDepartmentCriteria && meetsDateCriteria; // Return true if the teacher meets both criteria, false otherwise
     });
   };
 
   return (
-    <main style={{
-      padding: "2rem",
-      maxWidth: "1800px",
-      margin: "0 auto",
-      minHeight: "100vh",
-      backgroundColor: "#f8fafc"
-    }}>
+    <main
+      style={{
+        padding: "2rem",
+        maxWidth: "1800px",
+        margin: "0 auto",
+        minHeight: "100vh",
+        backgroundColor: "#f8fafc",
+      }}
+    >
       {/* Header with Logout */}
-      <div style={{
-        marginBottom: "2rem",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        flexWrap: "wrap",
-        gap: "1rem"
-      }}>
+      <div
+        style={{
+          marginBottom: "2rem",
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          flexWrap: "wrap",
+          gap: "1rem",
+        }}
+      >
         <div>
-          <h1 style={{
-            fontSize: "1.75rem",
-            fontWeight: "700",
-            color: "#1f2937",
-            margin: "0 0 0.5rem 0",
-          }}>
+          <h1
+            style={{
+              fontSize: "1.75rem",
+              fontWeight: "700",
+              color: "#1f2937",
+              margin: "0 0 0.5rem 0",
+            }}
+          >
             Teacher Performance Overview
           </h1>
-          <p style={{
-            fontSize: "1rem",
-            color: "#6b7280",
-            margin: "0",
-          }}>
+          <p
+            style={{
+              fontSize: "1rem",
+              color: "#6b7280",
+              margin: "0",
+            }}
+          >
             Review and analyze teacher performance metrics
           </p>
         </div>
@@ -322,8 +363,8 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
             fontWeight: "500",
             transition: "all 0.2s ease",
             ":hover": {
-              backgroundColor: "#fee2e2"
-            }
+              backgroundColor: "#fee2e2",
+            },
           }}
         >
           <LogOut size={16} />
@@ -332,82 +373,112 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
       </div>
 
       {/* Performance Metrics Cards */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
-        gap: "1.5rem",
-        marginBottom: "2rem"
-      }}>
-        {performanceMetrics.map((metric, index) => (  // Loop through the performanceMetrics array and render a card for each metric
-          <div key={index} style={{
-            backgroundColor: "white",
-            borderRadius: "0.75rem",
-            padding: "1.5rem",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
-          }}>
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              marginBottom: "1rem"
-            }}>
-              <div style={{
-                padding: "0.75rem",
-                borderRadius: "0.5rem",
-                backgroundColor: `${metric.color}15`,
-                color: metric.color
-              }}>
-                {metric.icon}
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+          gap: "1.5rem",
+          marginBottom: "2rem",
+        }}
+      >
+        {performanceMetrics.map(
+          (
+            metric,
+            index // Loop through the performanceMetrics array and render a card for each metric
+          ) => (
+            <div
+              key={index}
+              style={{
+                backgroundColor: "white",
+                borderRadius: "0.75rem",
+                padding: "1.5rem",
+                boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "flex-start",
+                  marginBottom: "1rem",
+                }}
+              >
+                <div
+                  style={{
+                    padding: "0.75rem",
+                    borderRadius: "0.5rem",
+                    backgroundColor: `${metric.color}15`,
+                    color: metric.color,
+                  }}
+                >
+                  {metric.icon}
+                </div>
+                <div
+                  style={{
+                    padding: "0.25rem 0.75rem",
+                    backgroundColor: metric.trend.startsWith("+")
+                      ? "#f0fdf4"
+                      : "#fef2f2",
+                    borderRadius: "999px",
+                    fontSize: "0.875rem",
+                    color: metric.trend.startsWith("+") ? "#16a34a" : "#dc2626",
+                  }}
+                >
+                  {metric.trend}
+                </div>
               </div>
-              <div style={{
-                padding: "0.25rem 0.75rem",
-                backgroundColor: metric.trend.startsWith('+') ? "#f0fdf4" : "#fef2f2",
-                borderRadius: "999px",
-                fontSize: "0.875rem",
-                color: metric.trend.startsWith('+') ? "#16a34a" : "#dc2626"
-              }}>
-                {metric.trend}
+              <h3
+                style={{
+                  fontSize: "0.875rem",
+                  color: "#6b7280",
+                  marginBottom: "0.5rem",
+                }}
+              >
+                {metric.title}
+              </h3>
+              <div
+                style={{
+                  fontSize: "1.5rem",
+                  fontWeight: "700",
+                  color: "#1f2937",
+                }}
+              >
+                {metric.value}
               </div>
             </div>
-            <h3 style={{
-              fontSize: "0.875rem",
-              color: "#6b7280",
-              marginBottom: "0.5rem"
-            }}>
-              {metric.title}
-            </h3>
-            <div style={{
-              fontSize: "1.5rem",
-              fontWeight: "700",
-              color: "#1f2937"
-            }}>
-              {metric.value}
-            </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
 
       {/* Filters and Sorting */}
-      <div style={{
-        backgroundColor: "white",
-        padding: "1rem",
-        borderRadius: "0.75rem",
-        marginBottom: "1.5rem",
-        boxShadow: "0 1px 3px rgba(0,0,0,0.1)"
-      }}>
-        <div style={{
-          display: "flex",
-          gap: "1rem",
-          flexWrap: "wrap",
-          alignItems: "center"
-        }}>
+      <div
+        style={{
+          backgroundColor: "white",
+          padding: "1rem",
+          borderRadius: "0.75rem",
+          marginBottom: "1.5rem",
+          boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            gap: "1rem",
+            flexWrap: "wrap",
+            alignItems: "center",
+          }}
+        >
           <div style={{ flex: "1", minWidth: "200px" }}>
-            <label style={{
-              display: "block",
-              fontSize: "0.875rem",
-              color: "#4b5563",
-              marginBottom: "0.5rem"
-            }}>Sort By</label>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.875rem",
+                color: "#4b5563",
+                marginBottom: "0.5rem",
+              }}
+            >
+              Sort By
+            </label>
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
@@ -416,7 +487,7 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
                 padding: "0.5rem",
                 borderRadius: "0.375rem",
                 border: "1px solid #e5e7eb",
-                fontSize: "0.875rem"
+                fontSize: "0.875rem",
               }}
             >
               <option value="rating">Rating (High to Low)</option>
@@ -426,12 +497,16 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
           </div>
 
           <div style={{ flex: "1", minWidth: "200px" }}>
-            <label style={{
-              display: "block",
-              fontSize: "0.875rem",
-              color: "#4b5563",
-              marginBottom: "0.5rem"
-            }}>Department</label>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.875rem",
+                color: "#4b5563",
+                marginBottom: "0.5rem",
+              }}
+            >
+              Department
+            </label>
             <select
               value={filterDepartment}
               onChange={(e) => setFilterDepartment(e.target.value)} // filter Department is a state variable
@@ -440,7 +515,7 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
                 padding: "0.5rem",
                 borderRadius: "0.375rem",
                 border: "1px solid #e5e7eb",
-                fontSize: "0.875rem"
+                fontSize: "0.875rem",
               }}
             >
               <option value="all">All Departments</option>
@@ -453,12 +528,16 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
           </div>
 
           <div style={{ flex: "1", minWidth: "200px" }}>
-            <label style={{
-              display: "block",
-              fontSize: "0.875rem",
-              color: "#4b5563",
-              marginBottom: "0.5rem"
-            }}>Time Period</label>
+            <label
+              style={{
+                display: "block",
+                fontSize: "0.875rem",
+                color: "#4b5563",
+                marginBottom: "0.5rem",
+              }}
+            >
+              Time Period
+            </label>
             <select
               value={dateRange} // dateRange is a state variable
               onChange={(e) => setDateRange(e.target.value)} // setDateRange is a function that updates the state variable dateRange
@@ -467,7 +546,7 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
                 padding: "0.5rem",
                 borderRadius: "0.375rem",
                 border: "1px solid #e5e7eb",
-                fontSize: "0.875rem"
+                fontSize: "0.875rem",
               }}
             >
               <option value="all">All Time</option>
@@ -480,7 +559,7 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
         </div>
       </div>
 
-      {/* Performance Trends Chart */}
+      {/* Performance Trends Chart
       <div style={{
         backgroundColor: "white",
         borderRadius: "0.75rem",
@@ -508,172 +587,204 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
             </BarChart>
           </ResponsiveContainer>
         </div>
-      </div>
+      </div> */}
 
       {/* Teacher Cards Grid */}
-      <div style={{
-        display: "grid",
-        gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-        gap: "1.5rem",
-        marginBottom: "2rem",
-      }}>
-        {getFilteredAndSortedTeachers().map((teacher) => ( // filtering and sorting teachers
-          <div
-            key={teacher.id}
-            style={{
-              backgroundColor: "white",
-              borderRadius: "0.75rem",
-              padding: "1.25rem",
-              boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
-              border: "1px solid #e5e7eb",
-              cursor: "pointer",
-              transition: "all 0.2s ease",
-              ":hover": {
-                boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)"
-              },
-              // Add these properties to ensure independent height
-              display: "flex",
-              flexDirection: "column",
-              height: "fit-content",
-              isolation: "isolate",
-              position: "relative",
-              zIndex: expandedCard === teacher.id ? "1" : "0"
-            }}
-          >
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+          gap: "1.5rem",
+          marginBottom: "2rem",
+        }}
+      >
+        {getFilteredAndSortedTeachers().map(
+          (
+            teacher // filtering and sorting teachers
+          ) => (
             <div
+              key={teacher.id}
               style={{
+                backgroundColor: "white",
+                borderRadius: "0.75rem",
+                padding: "1.25rem",
+                boxShadow: "0 1px 3px rgba(0, 0, 0, 0.1)",
+                border: "1px solid #e5e7eb",
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+                ":hover": {
+                  boxShadow: "0 4px 6px rgba(0, 0, 0, 0.1)",
+                },
+                // Add these properties to ensure independent height
                 display: "flex",
-                gap: "1rem",
-                marginBottom: expandedCard === teacher.id ? "1rem" : "0"
+                flexDirection: "column",
+                height: "fit-content",
+                isolation: "isolate",
+                position: "relative",
+                zIndex: expandedCard === teacher.id ? "1" : "0",
               }}
-              onClick={() => toggleCardExpand(teacher.id)} // toggle card expand
             >
               <div
                 style={{
-                  width: "80px",
-                  height: "80px",
-                  borderRadius: "0.5rem",
-                  backgroundColor: "#f3f4f6",
-                  backgroundImage: `url(${teacher.image})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  flexShrink: 0,
+                  display: "flex",
+                  gap: "1rem",
+                  marginBottom: expandedCard === teacher.id ? "1rem" : "0",
                 }}
-              />
-              <div style={{ flex: 1 }}>
-                <h3 style={{
-                  margin: "0 0 0.25rem 0",
-                  fontSize: "1rem",
-                  fontWeight: "600",
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center"
-                }}>
-                  {teacher.name}
-                  {expandedCard === teacher.id ? (
-                    <ChevronUp size={16} color="#6b7280" /> // show chevron up when expanded
-                  ) : (
-                    <ChevronDown size={16} color="#6b7280" /> // show chevron down when collapsed
-                  )}
-                </h3>
-                <div style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "0.5rem",
-                  marginBottom: "0.25rem"
-                }}>
-                  <div style={{
-                    display: "inline-flex",
-                    alignItems: "center",
-                    backgroundColor: "#fef3c7",
-                    color: "#92400e",
-                    padding: "0.25rem 0.5rem",
-                    borderRadius: "9999px",
-                    fontSize: "0.75rem",
-                    fontWeight: "500"
-                  }}>
-                    {teacher.rating} ★
-                  </div>
-                  <div style={{
-                    fontSize: "0.75rem",
-                    color: "#6b7280"
-                  }}>
-                    {teacher.reviews} reviews
-                  </div>
-                </div>
-                <div style={{
-                  display: "flex",
-                  flexWrap: "wrap",
-                  gap: "0.5rem",
-                  marginTop: "0.5rem"
-                }}>
-                  <div style={{
-                    backgroundColor: "#ecfdf5",
-                    color: "#065f46",
-                    padding: "0.25rem 0.5rem",
-                    borderRadius: "0.25rem",
-                    fontSize: "0.75rem",
-                    fontWeight: "500"
-                  }}>
-                    Engagement: {teacher.metrics.engagementScore}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Expandable metrics section */}
-            {expandedCard === teacher.id && (
-              <div
-                style={{
-                  paddingTop: "1rem",
-                  borderTop: "1px solid #e5e7eb",
-                  marginTop: "1rem"
-                }}
+                onClick={() => toggleCardExpand(teacher.id)} // toggle card expand
               >
-                <div style={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr 1fr",
-                  gap: "0.75rem"
-                }}>
-                  {Object.entries(teacher.metrics).map(([key, value]) => ( // mapping through the metrics object and displaying each key-value pair
-                    <div key={key} style={{
+                <div
+                  style={{
+                    width: "80px",
+                    height: "80px",
+                    borderRadius: "0.5rem",
+                    backgroundColor: "#f3f4f6",
+                    backgroundImage: `url(${teacher.image})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                    flexShrink: 0,
+                  }}
+                />
+                <div style={{ flex: 1 }}>
+                  <h3
+                    style={{
+                      margin: "0 0 0.25rem 0",
+                      fontSize: "1rem",
+                      fontWeight: "600",
                       display: "flex",
-                      flexDirection: "column"
-                    }}>
-                      <span style={{
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    {teacher.name}
+                    {expandedCard === teacher.id ? (
+                      <ChevronUp size={16} color="#6b7280" /> // show chevron up when expanded
+                    ) : (
+                      <ChevronDown size={16} color="#6b7280" /> // show chevron down when collapsed
+                    )}
+                  </h3>
+                  <div
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.5rem",
+                      marginBottom: "0.25rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "inline-flex",
+                        alignItems: "center",
+                        backgroundColor: "#fef3c7",
+                        color: "#92400e",
+                        padding: "0.25rem 0.5rem",
+                        borderRadius: "9999px",
+                        fontSize: "0.75rem",
+                        fontWeight: "500",
+                      }}
+                    >
+                      {teacher.rating} ★
+                    </div>
+                    <div
+                      style={{
                         fontSize: "0.75rem",
                         color: "#6b7280",
-                        textTransform: "capitalize",
-                        marginBottom: "0.25rem"
-                      }}>
-                        {key.replace(/([A-Z])/g, " $1").trim()}
-                      </span>
-                      <span style={{
-                        fontSize: "0.875rem",
-                        color: "#1f2937",
-                        fontWeight: "500",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.25rem"
-                      }}>
-                        {value}
-                        {key.includes("Score") || key.includes("Quality") ? ( // conditional rendering of a percentage symbol
-                          parseInt(value) > 90 ? (
-                            <span style={{ color: "#16a34a" }}>★</span> // green star for high scores
-                          ) : parseInt(value) > 80 ? (
-                            <span style={{ color: "#ca8a04" }}>★</span> // yellow star for medium scores
-                          ) : (
-                            <span style={{ color: "#dc2626" }}>★</span> // red star for low scores
-                          )
-                        ) : null}
-                      </span>
+                      }}
+                    >
+                      {teacher.reviews} reviews
                     </div>
-                  ))}
+                  </div>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexWrap: "wrap",
+                      gap: "0.5rem",
+                      marginTop: "0.5rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        backgroundColor: "#ecfdf5",
+                        color: "#065f46",
+                        padding: "0.25rem 0.5rem",
+                        borderRadius: "0.25rem",
+                        fontSize: "0.75rem",
+                        fontWeight: "500",
+                      }}
+                    >
+                      Engagement: {teacher.metrics.engagementScore}
+                    </div>
+                  </div>
                 </div>
               </div>
-            )}
-          </div>
-        ))}
+
+              {/* Expandable metrics section */}
+              {expandedCard === teacher.id && (
+                <div
+                  style={{
+                    paddingTop: "1rem",
+                    borderTop: "1px solid #e5e7eb",
+                    marginTop: "1rem",
+                  }}
+                >
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "1fr 1fr",
+                      gap: "0.75rem",
+                    }}
+                  >
+                    {Object.entries(teacher.metrics).map(
+                      (
+                        [key, value] // mapping through the metrics object and displaying each key-value pair
+                      ) => (
+                        <div
+                          key={key}
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: "0.75rem",
+                              color: "#6b7280",
+                              textTransform: "capitalize",
+                              marginBottom: "0.25rem",
+                            }}
+                          >
+                            {key.replace(/([A-Z])/g, " $1").trim()}
+                          </span>
+                          <span
+                            style={{
+                              fontSize: "0.875rem",
+                              color: "#1f2937",
+                              fontWeight: "500",
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "0.25rem",
+                            }}
+                          >
+                            {value}
+                            {key.includes("Score") ||
+                            key.includes("Quality") ? ( // conditional rendering of a percentage symbol
+                              parseInt(value) > 90 ? (
+                                <span style={{ color: "#16a34a" }}>★</span> // green star for high scores
+                              ) : parseInt(value) > 80 ? (
+                                <span style={{ color: "#ca8a04" }}>★</span> // yellow star for medium scores
+                              ) : (
+                                <span style={{ color: "#dc2626" }}>★</span> // red star for low scores
+                              )
+                            ) : null}
+                          </span>
+                        </div>
+                      )
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          )
+        )}
       </div>
 
       {/* Download Report Button */}
@@ -681,7 +792,7 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
         style={{
           display: "flex",
           justifyContent: "flex-end",
-          marginTop: "2rem"
+          marginTop: "2rem",
         }}
       >
         <button
@@ -699,18 +810,30 @@ const PerformanceDashboard = () => { // define the PerformanceDashboard componen
             alignItems: "center",
             gap: "0.5rem",
             ":hover": {
-              backgroundColor: "#374151"
-            }
+              backgroundColor: "#374151",
+            },
           }}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 16L7 11L8.41 9.59L12 13.17L15.59 9.59L17 11L12 16Z" fill="currentColor" />
-            <path d="M12 8L7 3L8.41 1.59L12 5.17L15.59 1.59L17 3L12 8Z" fill="currentColor" />
+          <svg
+            width="16"
+            height="16"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 16L7 11L8.41 9.59L12 13.17L15.59 9.59L17 11L12 16Z"
+              fill="currentColor"
+            />
+            <path
+              d="M12 8L7 3L8.41 1.59L12 5.17L15.59 1.59L17 3L12 8Z"
+              fill="currentColor"
+            />
           </svg>
           Download Full Report
         </button>
       </div>
     </main>
-  )
-}
-export default PerformanceDashboard // Exporting this component as default so that it can be used in the App.jsx file
+  );
+};
+export default PerformanceDashboard; // Exporting this component as default so that it can be used in the App.jsx file
